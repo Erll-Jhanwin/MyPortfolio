@@ -64,5 +64,3 @@ No analytics, advertising, embeds, marketing emails, or visitor accounts are inc
 
 
 
-- Username: admin
-- Password: LocalAdmin123!
