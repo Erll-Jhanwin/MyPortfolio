@@ -61,3 +61,8 @@ The SQLite contract tests are not evidence of PostgreSQL grants/RLS, SMTP delive
 ## Data handling
 
 No analytics, advertising, embeds, marketing emails, or visitor accounts are included. The site requests DM Sans from Google Fonts; Google receives normal request metadata needed to deliver the font. Contact form asks only name, email, inquiry type, message, optional budget/timing, response consent, and adult attestation. Privacy requests return neutral confirmation. Proposed retention windows in the privacy draft require owner/jurisdiction review and an actual cleanup/backup process before launch. Never place production inquiries in local development or logs.
+
+
+
+- Username: admin
+- Password: LocalAdmin123!

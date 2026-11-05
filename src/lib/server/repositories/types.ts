@@ -1,4 +1,5 @@
 import type { ProjectDraft, ProjectImageInput, ProjectImageRecord, ProjectRecord } from "@/lib/projects/types";
+import type { ResumeDocument, ResumeState } from "@/lib/resume/types";
 
 export type InquiryInput = { id:string; idempotencyKey:string; name:string; email:string; type:"project"|"job"|"other"; message:string; budget:string|null; timeline:string|null; consentVersion:string; consentedAt:string };
 export type PrivacyInput = { id:string; idempotencyKey:string; email:string; type:"access"|"correction"|"deletion"; details:string|null; createdAt:string };
@@ -19,4 +20,7 @@ export interface Repository {
   addProjectImage(image:ProjectImageInput): Promise<void>;
   deleteProjectImage(projectId:string, imageId:string): Promise<boolean>;
   getProjectImage(projectId:string, imageId:string): Promise<ProjectImageRecord|null>;
+  getResume(): Promise<ResumeState>;
+  saveResumeDraft(resume:ResumeDocument): Promise<ResumeState>;
+  publishResume(): Promise<ResumeState>;
 }

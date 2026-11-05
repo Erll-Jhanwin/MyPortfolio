@@ -3,8 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
-import { ArrowUpRight, Check, ChevronDown, ImagePlus, LogOut, Plus, Save, Trash2, X } from "lucide-react";
+import { ArrowUpRight, Check, ChevronDown, ImagePlus, LogOut, Plus, Save, Trash2, X, FileText } from "lucide-react";
 import type { ProjectDraft, ProjectKind, ProjectRecord, ProjectState } from "@/lib/projects/types";
+import { TechnologyTags } from "@/components/technology-tags";
 
 type EditorState = {
   slug: string; title: string; summary: string; description: string;
@@ -72,7 +73,7 @@ export function AdminPanel({ configured, authenticated: initiallyAuthenticated }
     }
   }, [selectedId]);
 
-  useEffect(() => { if (authenticated) void loadProjects(); }, [authenticated, loadProjects]);
+  useEffect(() => { if (!authenticated) return; const timer = window.setTimeout(() => { void loadProjects(); }, 0); return () => window.clearTimeout(timer); }, [authenticated, loadProjects]);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setBusy(true); setLoginMessage("");
@@ -151,7 +152,7 @@ export function AdminPanel({ configured, authenticated: initiallyAuthenticated }
 
   const selectedProject = projects.find((project) => project.id === selectedId);
   return <section className="page-body admin-page"><div className="container admin-container">
-    <header className="admin-heading"><div><p className="eyebrow">Private area</p><h1>Project dashboard</h1><p>Manage drafts and published work. Only published projects appear publicly.</p></div><button className="button button-outline" onClick={signOut} disabled={busy}><LogOut size={15} aria-hidden="true" /> Sign out</button></header>
+    <header className="admin-heading"><div><p className="eyebrow">Private area</p><h1>Project dashboard</h1><p>Manage drafts and published work. Only published projects appear publicly.</p></div><div className="admin-heading-actions"><Link className="button button-outline" href="/admin/resume"><FileText size={15} aria-hidden="true" /> Resume editor</Link><button className="button button-outline" onClick={signOut} disabled={busy}><LogOut size={15} aria-hidden="true" /> Sign out</button></div></header>
     <div className="admin-layout">
       <aside className="admin-project-list"><div className="admin-list-heading"><h2>Projects</h2><button className="button button-dark button-small" type="button" onClick={startNew}><Plus size={15} aria-hidden="true" /> New</button></div>
         {projects.length ? projects.map((project) => <button key={project.id} type="button" className={`admin-project-item${selectedId === project.id ? " is-selected" : ""}`} onClick={() => editProject(project)}><span className="admin-project-title">{project.title}</span><span className={`admin-status${project.published ? " is-published" : ""}`}>{project.published ? "Published" : "Draft"}</span></button>) : <p className="admin-list-empty">No projects yet. Add the first one here.</p>}
@@ -169,7 +170,7 @@ export function AdminPanel({ configured, authenticated: initiallyAuthenticated }
           <label className="admin-field-wide">Description<textarea required maxLength={8000} rows={5} value={form.description} onChange={(event) => update("description", event.target.value)} /><small>Describe the project accurately. No results are assumed.</small></label>
           <label>My role<input maxLength={500} value={form.role} onChange={(event) => update("role", event.target.value)} /></label>
           <label>Project context<input maxLength={1500} value={form.context} onChange={(event) => update("context", event.target.value)} /></label>
-          <label>Technologies<input maxLength={800} value={form.technologies} onChange={(event) => update("technologies", event.target.value)} /><small>Separate technologies with commas.</small></label>
+          <div className="admin-field-wide admin-technology-field"><label>Technologies<input maxLength={800} value={form.technologies} onChange={(event) => update("technologies", event.target.value)} /><small>Separate technologies with commas. Matching icons appear automatically.</small></label><TechnologyTags technologies={form.technologies.split(",").map((item) => item.trim()).filter(Boolean)} className="technology-tags admin-technology-preview" /></div>
           <label>Live demo URL<input type="url" inputMode="url" placeholder="https://" maxLength={2048} value={form.demoUrl} onChange={(event) => update("demoUrl", event.target.value)} /></label>
           <label className="admin-field-wide">GitHub URL<input type="url" inputMode="url" placeholder="https://github.com/…" maxLength={2048} value={form.githubUrl} onChange={(event) => update("githubUrl", event.target.value)} /></label>
         </div>

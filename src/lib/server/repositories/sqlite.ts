@@ -1,9 +1,10 @@
 import Database from "better-sqlite3";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
-import type { Repository, InquiryInput, PrivacyInput, Job } from "./types";
-import type { ProjectDraft, ProjectImageInput, ProjectImageRecord, ProjectRecord } from "@/lib/projects/types";
+import type { Repository, Job } from "./types";
+import type { ProjectDraft, ProjectImageInput, ProjectRecord } from "@/lib/projects/types";
 import { mapProject } from "./project-mapper";
+import { defaultResume, type ResumeDocument, type ResumeState } from "../../resume/types";
 
 const globalDb=globalThis as typeof globalThis & { portfolioDb?:Database.Database };
 function db(){if(globalDb.portfolioDb)return globalDb.portfolioDb;const file=process.env.SQLITE_PATH??"./data/portfolio.sqlite";const absolute=path.resolve(file);mkdirSync(path.dirname(absolute),{recursive:true});const conn=new Database(absolute);conn.pragma("foreign_keys = ON");conn.pragma("journal_mode = WAL");conn.pragma("busy_timeout = 5000");globalDb.portfolioDb=conn;return conn;}
@@ -23,5 +24,8 @@ export const sqliteRepository:Repository={
   async countProjectImages(projectId){return Number((db().prepare("SELECT count(*) AS count FROM project_images WHERE project_id=?").get(projectId) as {count:number}).count);},
   async addProjectImage(image:ProjectImageInput){const d=db();d.transaction(()=>{const count=(d.prepare("SELECT count(*) AS count FROM project_images WHERE project_id=?").get(image.projectId) as {count:number}).count;if(count>=6)throw new Error("project_image_limit");d.prepare("INSERT INTO project_images(id,project_id,alt_text,width,height,mime_type,data,created_at) VALUES(?,?,?,?,?,'image/webp',?,?)").run(image.id,image.projectId,image.alt,image.width,image.height,image.data,new Date().toISOString());}).immediate();},
   async deleteProjectImage(projectId,imageId){return db().prepare("DELETE FROM project_images WHERE project_id=? AND id=?").run(projectId,imageId).changes>0;},
-  async getProjectImage(projectId,imageId){const row=db().prepare("SELECT i.id,i.project_id,i.alt_text,i.width,i.height,i.data,p.published FROM project_images i JOIN projects p ON p.id=i.project_id WHERE i.project_id=? AND i.id=?").get(projectId,imageId) as (Record<string,unknown>&{data:Buffer})|undefined;if(!row)return null;return {id:String(row.id),projectId:String(row.project_id),alt:String(row.alt_text),width:Number(row.width),height:Number(row.height),data:row.data,mimeType:"image/webp",published:row.published===1};}
+  async getProjectImage(projectId,imageId){const row=db().prepare("SELECT i.id,i.project_id,i.alt_text,i.width,i.height,i.data,p.published FROM project_images i JOIN projects p ON p.id=i.project_id WHERE i.project_id=? AND i.id=?").get(projectId,imageId) as (Record<string,unknown>&{data:Buffer})|undefined;if(!row)return null;return {id:String(row.id),projectId:String(row.project_id),alt:String(row.alt_text),width:Number(row.width),height:Number(row.height),data:row.data,mimeType:"image/webp",published:row.published===1};},
+  async getResume():Promise<ResumeState>{const row=db().prepare("SELECT draft_json,published_json,updated_at,published_at FROM resume_documents WHERE id=1").get() as {draft_json:string;published_json:string;updated_at:string;published_at:string|null}|undefined;if(!row)return {draft:defaultResume,published:defaultResume,publishedAt:null,updatedAt:null};return {draft:JSON.parse(row.draft_json) as ResumeDocument,published:JSON.parse(row.published_json) as ResumeDocument,publishedAt:row.published_at,updatedAt:row.updated_at};},
+  async saveResumeDraft(resume){const d=db();const now=new Date().toISOString();d.prepare("INSERT INTO resume_documents(id,draft_json,published_json,updated_at,published_at) VALUES(1,?,?,?,NULL) ON CONFLICT(id) DO UPDATE SET draft_json=excluded.draft_json,updated_at=excluded.updated_at").run(JSON.stringify(resume),JSON.stringify(defaultResume),now);return this.getResume();},
+  async publishResume(){const d=db();const now=new Date().toISOString();d.prepare("INSERT INTO resume_documents(id,draft_json,published_json,updated_at,published_at) VALUES(1,?,?,?,?) ON CONFLICT(id) DO UPDATE SET published_json=resume_documents.draft_json,published_at=excluded.published_at,updated_at=excluded.updated_at").run(JSON.stringify(defaultResume),JSON.stringify(defaultResume),now,now);return this.getResume();}
 };

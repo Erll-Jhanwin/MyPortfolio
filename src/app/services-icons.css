@@ -1,0 +1,8 @@
+.service-card{min-width:0}
+.service-card-icon{position:relative;display:grid;place-items:center;width:48px;height:48px;margin:0 0 19px;border:1px solid #c5e99c;background:#c5e99c40;border-radius:10px;color:var(--ink);transition:transform .24s ease,background-color .24s ease,border-color .24s ease,box-shadow .24s ease}
+.service-card-icon svg{display:block;flex:none}
+.service-card-icon-composite .service-window-icon{width:26px;height:26px}
+.service-card-icon-composite .service-code-icon{position:absolute;right:-5px;bottom:-4px;width:19px;height:19px;padding:2px;border:1px solid var(--lime);border-radius:5px;background:var(--lime);color:var(--ink)}
+@media(hover:hover) and (pointer:fine){.service-card:hover .service-card-icon{transform:translateY(-3px);background:var(--lime);border-color:var(--lime);box-shadow:0 5px 12px #17171716}}
+@media(max-width:680px){.service-cards{grid-template-columns:minmax(0,1fr);gap:14px}.service-card{padding:20px}.service-card-icon{margin-bottom:16px}}
+@media(prefers-reduced-motion:reduce){.service-card-icon{transition:none}.service-card:hover .service-card-icon{transform:none;box-shadow:none}}

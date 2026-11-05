@@ -18,10 +18,14 @@ export default async function HomePage() {
         <p className="hero-note"><span /> Project-led, practical, and built through clear collaboration.</p>
       </div>
       <figure className="hero-visual hero-portrait">
-        <Image src="/images/erll-portrait.webp" alt="Erll in a dark hoodie, photographed in a computer workspace." width={1000} height={1000} priority sizes="(max-width: 680px) calc(100vw - 36px), (max-width: 1160px) 40vw, 480px" className="hero-portrait-image" />
-        <span className="portrait-frame" aria-hidden="true" />
+        <span className="portrait-panel portrait-panel-charcoal" aria-hidden="true" />
+        <span className="portrait-panel portrait-panel-lime" aria-hidden="true" />
+        <div className="portrait-layer portrait-photo-layer">
+          <Image src="/images/erll-portrait.webp" alt="Erll in a dark hoodie, photographed in a computer workspace." width={1000} height={1000} priority sizes="(max-width: 680px) calc(100vw - 36px), (max-width: 1160px) 40vw, 480px" className="hero-portrait-image" />
+          <span className="portrait-frame" aria-hidden="true" />
+          <span className="portrait-index" aria-hidden="true">01 / 04</span>
+        </div>
         <span className="portrait-accent" aria-hidden="true" />
-        <span className="portrait-index" aria-hidden="true">01 / 04</span>
         <figcaption className="portrait-caption"><span aria-hidden="true" />Erll · Student developer</figcaption>
       </figure>
     </div></section>

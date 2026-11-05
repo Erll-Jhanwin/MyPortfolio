@@ -4,6 +4,11 @@ import { SiteFooter } from "@/components/site-footer";
 import { CookiePreferences } from "@/components/cookie-preferences";
 import { site } from "@/lib/site";
 import "./globals.css";
+import "./admin-resume.css";
+import "./hero-exploded.css";
+import "./navigation-polish.css";
+import "./services-icons.css";
+import "./resume-skill-icons.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url), title: { default: site.title, template: "%s — Erll" }, description: site.description,
@@ -13,5 +18,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet"/></head><body id="top"><a className="skip-link" href="#main">Skip to content</a><SiteHeader /><main id="main">{children}</main><SiteFooter /><CookiePreferences /></body></html>;
+  return <html lang="en" suppressHydrationWarning><head><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet"/></head><body id="top"><a className="skip-link" href="#main">Skip to content</a><SiteHeader /><main id="main">{children}</main><SiteFooter /><CookiePreferences /></body></html>;
 }

@@ -1,0 +1,6 @@
+.resume-tags li{display:inline-flex;align-items:center;gap:6px;max-width:100%;min-width:0}
+.resume-skill-icon{display:inline-grid;place-items:center;width:14px;height:14px;flex:none;color:var(--ink)}
+.resume-skill-icon svg{display:block;width:14px;height:14px;flex:none}
+.resume-skill-brand{display:block;width:14px;height:14px;background-position:center;background-repeat:no-repeat;background-size:contain}
+.resume-skill-label{min-width:0;overflow-wrap:anywhere}
+@media(max-width:680px){.resume-tags{gap:7px}.resume-tags li{padding:6px 8px;gap:6px}}

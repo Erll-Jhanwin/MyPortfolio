@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ArrowUpRight, Menu } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { navItems } from "@/lib/site";
+import { MobileNavigation } from "@/components/mobile-navigation";
 
 export function SiteHeader() {
   return (
@@ -13,13 +14,7 @@ export function SiteHeader() {
           {navItems.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
         </nav>
         <Link className="header-cta" href="/contact">Let’s talk <ArrowUpRight size={15} aria-hidden="true" /></Link>
-        <details className="mobile-menu">
-          <summary aria-label="Open navigation menu"><Menu size={22} aria-hidden="true" /></summary>
-          <nav aria-label="Mobile navigation">
-            {navItems.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
-            <Link href="/contact">Discuss your project <ArrowUpRight size={15} aria-hidden="true" /></Link>
-          </nav>
-        </details>
+        <MobileNavigation items={navItems} />
       </div>
     </header>
   );

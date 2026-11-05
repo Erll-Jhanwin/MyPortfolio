@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, ExternalLink } from "lucide-react";
 import { getPublishedProject } from "@/lib/projects/public";
 import { safeExternalUrl } from "@/lib/urls";
+import { TechnologyTags } from "@/components/technology-tags";
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
@@ -26,7 +27,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
       <Link className="text-link" href="/projects"><ArrowLeft size={15} /> All projects</Link>
       <p className="eyebrow" style={{ marginTop: 25 }}>{project.type} project · {project.status}</p>
       <h1>{project.title}</h1><p>{project.summary}</p>
-      <div className="case-meta">{project.stack.map((item) => <span className="tag" key={item}>{item}</span>)}</div>
+      <TechnologyTags technologies={project.stack} className="case-meta" tagClassName="tag" />
     </div></section>
     <section className="page-body"><div className="container case-grid">
       <article className="case-content">
