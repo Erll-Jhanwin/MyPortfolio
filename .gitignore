@@ -1,0 +1,13 @@
+node_modules/
+.next/
+.next-admin-workflow-test/
+coverage/
+playwright-report/
+test-results/
+.env
+.env.*
+!.env.example
+data/*.sqlite*
+data/*.db*
+data/mail-preview/
+*.log

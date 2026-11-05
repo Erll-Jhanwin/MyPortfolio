@@ -1,0 +1,34 @@
+"use client";
+
+import { FormEvent, useId, useRef, useState } from "react";
+import Link from "next/link";
+import { ArrowUpRight, LoaderCircle } from "lucide-react";
+
+type Values = { name: string; email: string; type: string; message: string; budget: string; timeline: string; consent: boolean; adultConfirmed: boolean };
+const initial: Values = { name:"",email:"",type:"project",message:"",budget:"",timeline:"",consent:false,adultConfirmed:false };
+
+export function ContactForm(){
+  const id=useId(); const idempotency=useRef(""); const [values,setValues]=useState(initial); const [errors,setErrors]=useState<Record<string,string>>({}); const [status,setStatus]=useState(""); const [statusError,setStatusError]=useState(false); const [busy,setBusy]=useState(false); const [receipt,setReceipt]=useState("");
+  function change(key:keyof Values,value:string|boolean){setValues(v=>({...v,[key]:value}));if(errors[key])setErrors(v=>({...v,[key]:""}));setStatus("")}
+  async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();setBusy(true);setStatus("");setStatusError(false);setErrors({});setReceipt("");
+    if(!idempotency.current)idempotency.current=crypto.randomUUID();
+    try{const response=await fetch("/api/inquiries",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...values,idempotencyKey:idempotency.current,website:(new FormData(e.currentTarget).get("website")||"").toString()})});const data=await response.json();
+      if(response.status===400&&data.errors){setErrors(data.errors as Record<string,string>);setStatus("Please check the highlighted fields.");setStatusError(true);return}
+      if(!response.ok){setStatusError(true);setStatus(data.message||"Your inquiry could not be saved. Please try again shortly.");return}
+      setReceipt(data.receiptId as string);setValues(initial);setStatus("Your inquiry has been saved. Thank you for sharing the context.");idempotency.current=crypto.randomUUID();
+    }catch{setStatusError(true);setStatus("We couldn’t reach the server. Your details have not been submitted; please try again.");}finally{setBusy(false)}
+  }
+  function fieldError(key:string){return errors[key]?<span className="field-error" id={`${id}-${key}-error`}>{errors[key]}</span>:null}
+  return <form className="contact-form" onSubmit={submit} noValidate aria-describedby={status?`${id}-status`:undefined}>
+    <div className="form-row"><div className="field"><label htmlFor={`${id}-name`}>Your name <span aria-hidden="true">*</span></label><input id={`${id}-name`} autoComplete="name" name="name" required maxLength={100} value={values.name} onChange={e=>change("name",e.target.value)} aria-invalid={!!errors.name} aria-describedby={errors.name?`${id}-name-error`:undefined}/>{fieldError("name")}</div><div className="field"><label htmlFor={`${id}-email`}>Email address <span aria-hidden="true">*</span></label><input id={`${id}-email`} autoComplete="email" name="email" type="email" required maxLength={254} value={values.email} onChange={e=>change("email",e.target.value)} aria-invalid={!!errors.email} aria-describedby={errors.email?`${id}-email-error`:undefined}/>{fieldError("email")}</div></div>
+    <div className="form-row"><div className="field"><label htmlFor={`${id}-type`}>What is this about? <span aria-hidden="true">*</span></label><select id={`${id}-type`} name="type" value={values.type} onChange={e=>change("type",e.target.value)}><option value="project">A project</option><option value="job">A developer role</option><option value="other">Something else</option></select>{fieldError("type")}</div><div className="field"><label htmlFor={`${id}-budget`}>Budget range <span className="field-hint">(optional)</span></label><select id={`${id}-budget`} name="budget" value={values.budget} onChange={e=>change("budget",e.target.value)}><option value="">Prefer to discuss</option><option value="under-500">Under 500</option><option value="500-1500">500–1,500</option><option value="1500-5000">1,500–5,000</option><option value="over-5000">Over 5,000</option><option value="not-applicable">Not applicable</option></select><p className="field-hint">A rough range is optional; no currency is assumed. Scope, currency, and quote are discussed first.</p></div></div>
+    <div className="field"><label htmlFor={`${id}-timeline`}>When are you hoping to start? <span className="field-hint">(optional)</span></label><input id={`${id}-timeline`} name="timeline" maxLength={100} placeholder="e.g. exploring options, this semester" value={values.timeline} onChange={e=>change("timeline",e.target.value)} /></div>
+    <div className="field"><label htmlFor={`${id}-message`}>A little about the situation <span aria-hidden="true">*</span></label><textarea id={`${id}-message`} name="message" required minLength={20} maxLength={3000} value={values.message} onChange={e=>change("message",e.target.value)} aria-invalid={!!errors.message} aria-describedby={`${id}-message-hint${errors.message?` ${id}-message-error`:""}`}/><p className="field-hint" id={`${id}-message-hint`}>20–3,000 characters. Please don’t include passwords, sensitive personal data, or private records.</p>{fieldError("message")}</div>
+    <div className="trap" aria-hidden="true"><label htmlFor={`${id}-website`}>Leave this field empty</label><input id={`${id}-website`} name="website" tabIndex={-1} autoComplete="off" /></div>
+    <label className="consent-box"><input type="checkbox" required checked={values.consent} onChange={e=>change("consent",e.target.checked)} aria-invalid={!!errors.consent} aria-describedby={errors.consent?`${id}-consent-error`:undefined}/><span>I agree that Erll may use these details to respond to my inquiry. See the <Link href="/privacy">Privacy Policy</Link>. <span aria-hidden="true">*</span>{fieldError("consent")}</span></label>
+    <label className="consent-box"><input type="checkbox" required checked={values.adultConfirmed} onChange={e=>change("adultConfirmed",e.target.checked)} aria-invalid={!!errors.adultConfirmed} aria-describedby={errors.adultConfirmed?`${id}-adultConfirmed-error`:undefined}/><span>I confirm I am at least 18 years old. If I am younger, a parent or guardian should contact Erll for me. <span aria-hidden="true">*</span>{fieldError("adultConfirmed")}</span></label>
+    <p className="field-hint">There is no marketing opt-in. No promotional email will be sent from this inquiry.</p>
+    {status&&<div id={`${id}-status`} className={`form-status ${statusError?"form-status-error":""}`} role="status" aria-live="polite">{status}{receipt&&<span className="sr-only"> Reference {receipt}</span>}</div>}
+    <button type="submit" className="button button-dark form-submit" disabled={busy}>{busy?<><LoaderCircle size={16} className="spin"/> Saving…</>:<>Send inquiry <ArrowUpRight size={15}/></>}</button>
+  </form>;
+}

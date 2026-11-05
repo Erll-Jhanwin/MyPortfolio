@@ -1,0 +1,3 @@
+import type { MetadataRoute } from "next";
+import { projects } from "@/content/projects";
+export default function sitemap():MetadataRoute.Sitemap{if(process.env.INDEX_PUBLIC_SITE!=="true"||process.env.LAUNCH_CONTENT_APPROVED!=="true")return [];const base=process.env.APP_URL??"http://localhost:3000";const routes=["/","/projects","/about","/services","/resume","/contact","/privacy","/terms","/refunds","/cookies","/privacy-request"];return [...routes.map(path=>({url:`${base}${path}`,lastModified:new Date()})),...projects.map(p=>({url:`${base}/projects/${p.slug}`,lastModified:new Date(p.updatedAt)}))];}

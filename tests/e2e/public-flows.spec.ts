@@ -1,0 +1,4 @@
+import { expect, test } from "@playwright/test";
+test("public work and project empty state are available",async({page})=>{await page.goto("/");await expect(page.getByRole("heading",{level:1})).toContainText("Good software starts");await page.getByRole("link",{name:/explore my work/i}).click();await expect(page.getByRole("heading",{level:1})).toContainText("Work, with the thinking included");await expect(page.getByText(/no public case studies/i)).toBeVisible();});
+test("contact form exposes labels and requires consent",async({page})=>{await page.goto("/contact");await expect(page.getByLabel("Your name")).toBeVisible();await expect(page.getByLabel(/I agree that Erll/i)).not.toBeChecked();await expect(page.getByRole("button",{name:/send inquiry/i})).toBeVisible();});
+test("unknown routes show a helpful not found page",async({page})=>{await page.goto("/projects/not-a-real-project");await expect(page.getByText("This page isn’t here.")).toBeVisible();});

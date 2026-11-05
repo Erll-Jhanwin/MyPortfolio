@@ -1,0 +1,51 @@
+{
+  "name": "erll-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "npm@11.12.1",
+  "engines": { "node": ">=20.9.0" },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "db:seed": "tsx scripts/seed.ts",
+    "db:cleanup": "tsx scripts/cleanup.ts",
+    "admin:hash-password": "node scripts/hash-admin-password.mjs",
+    "admin:verify": "node scripts/verify-admin-workflow.mjs",
+    "email:work": "tsx scripts/work-notifications.ts",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@next/env": "16.4.5",
+    "better-sqlite3": "12.4.1",
+    "lucide-react": "0.577.0",
+    "next": "16.4.5",
+    "nodemailer": "7.0.10",
+    "pg": "8.16.3",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "sharp": "0.35.5",
+    "zod": "4.1.12"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.58.2",
+    "@tailwindcss/postcss": "4.1.12",
+    "@types/better-sqlite3": "7.6.13",
+    "@types/node": "24.7.2",
+    "@types/nodemailer": "7.0.3",
+    "@types/pg": "8.15.5",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "eslint": "9.37.0",
+    "eslint-config-next": "16.4.5",
+    "tailwindcss": "4.1.12",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4"
+  }
+}

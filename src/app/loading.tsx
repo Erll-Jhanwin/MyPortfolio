@@ -1,0 +1,1 @@
+export default function Loading(){return <section className="page-body" aria-busy="true" aria-live="polite"><div className="container"><p className="eyebrow">Loading</p><div className="loading-line"/><div className="loading-line loading-line-short"/></div></section>}
