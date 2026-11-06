@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { NavigationIcon } from "@/components/navigation-icon";
 
 type NavigationItem = { href: string; label: string };
 
@@ -47,7 +48,7 @@ export function MobileNavigation({ items }: { items: NavigationItem[] }) {
     </button>
     <div className="mobile-menu-panel" id="mobile-navigation-panel" data-open={open}>
       <nav className="mobile-navigation" aria-label="Mobile navigation" aria-hidden={!open} inert={!open}>
-        {items.map((item) => <Link key={item.href} href={item.href} onClick={close}>{item.label}</Link>)}
+        {items.map((item) => <Link key={item.href} href={item.href} onClick={close}><span className="navigation-label"><NavigationIcon href={item.href} />{item.label}</span></Link>)}
         <Link className="mobile-navigation-cta" href="/contact" onClick={close}>Discuss your project <ArrowUpRight size={15} aria-hidden="true" /></Link>
       </nav>
     </div>
