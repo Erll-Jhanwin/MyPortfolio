@@ -25,28 +25,35 @@ export type ResumeState = { draft: ResumeDocument; published: ResumeDocument; pu
 
 export const defaultResume: ResumeDocument = {
   name: "Erll Jhanwin P. Catapang",
-  headline: "Fourth-year BSIT student · Service Management",
-  contact: { email: "erlljhanwincatapang61@gmail.com", phone: "0976 646 4273", location: "Cuenca, Batangas, Philippines" },
-  socialLinks: [],
-  summaryTitle: "People-focused. Practical. Ready to learn.",
+  headline: "Junior Software Engineer · Full-Stack Developer",
+  contact: { email: "erlljhanwincatapang61@gmail.com", phone: "09766464273", location: "Lipa, Batangas" },
+  socialLinks: [{ id: "github", label: "GitHub", url: "https://github.com/Erll-Jhanwin" }],
+  summaryTitle: "Professional summary",
   summary: [
-    "Motivated and adaptable IT student with experience in customer service, team leadership, and fast-paced operations. Developed communication, customer-handling, problem-solving, and teamwork skills as a Team Leader at Jollibee.",
-    "Seeking a Customer Service Representative or Call Center Agent position where I can contribute these skills and continue to grow professionally.",
+    "Aspiring Software Engineer and BSIT graduating student specializing in Service Management, with hands-on experience developing full-stack web applications and mobile solutions. Proficient in JavaScript, Python, React.js, Node.js, Django, and database management, with experience building REST APIs, authentication systems, and business management applications. Brings additional customer support experience, strong problem-solving abilities, and effective communication skills. Seeking a Junior Software Engineer or Full-Stack Developer position to contribute to software development projects and deliver practical, user-focused solutions.",
   ],
   experience: [
-    { id: "jollibee-team-leader", role: "Team Leader", organization: "Jollibee SM Lipa", location: "Lipa City, Batangas", dates: "June 2024 – August 2026", points: ["Led and supported team members in delivering efficient, quality customer service.", "Handled customer concerns professionally and provided appropriate resolutions.", "Coordinated daily tasks and ensured team members followed operational procedures.", "Worked in a fast-paced environment while maintaining service quality.", "Assisted in training and guiding team members to improve performance.", "Applied leadership, communication, teamwork, and problem-solving skills."] },
-    { id: "lgU-work-immersion", role: "Work Immersion", organization: "Alitagtag Local Government Unit (MDRRMO)", location: "Alitagtag, Batangas", dates: "February 2023 – March 2023", points: ["Created rainfall advisory graphics for public information and awareness.", "Assisted in developing and organizing the department’s Citizen’s Charter."] },
+    { id: "results-cx", role: "Customer Support Associate", organization: "Results-CX", location: "", dates: "September 2026 – Present", points: ["Handle customer inquiries and concerns through calls while providing timely and effective resolutions.", "Follow established quality standards and performance metrics to maintain customer satisfaction and service quality.", "Apply active listening, communication, and problem-solving skills to address customer needs and resolve concerns.", "Collaborate with team members to ensure efficient customer service operations."] },
+    { id: "alitagtag-mdrmmo", role: "Work Immersion", organization: "Local Government Unit of Alitagtag — Municipal Disaster Risk Reduction and Management Office (MDRRMO)", location: "Alitagtag, Batangas", dates: "February 2023 – March 2023", points: ["Create rainfall advisory graphics to inform the public about weather conditions and possible flooding.", "Design clear and Informative visuals for public announcements and safety reminders.", "Developed the Department’s Citizen’s Charter outlining its services, requirements, procedures, and processing times.", "Organized service information to help citizens understand and access government services easily."] },
   ],
   skills: [
-    { id: "core-skills", title: "Core skills", items: ["Customer service", "Verbal communication", "Active listening", "Problem solving", "Team leadership", "Conflict resolution", "Adaptability", "Time management", "Attention to detail", "Multitasking", "Willingness to learn"] },
-    { id: "technical-skills", title: "Technical skills", items: ["HTML", "CSS", "JavaScript", "PHP", "MySQL", "PostgreSQL", "Bootstrap", "Database management", "Basic API integration", "Microsoft Office", "Web development", "Technical troubleshooting"] },
+    { id: "programming-languages", title: "Programming languages", items: ["JavaScript", "Python", "PHP", "Java"] },
+    { id: "frontend-development", title: "Frontend development", items: ["HTML5", "CSS3", "React.js", "Bootstrap", "Tailwind CSS"] },
+    { id: "backend-development", title: "Backend development", items: ["Node.js", "Express.js", "Django"] },
+    { id: "databases", title: "Databases", items: ["PostgreSQL", "MySQL", "SQLite", "Supabase"] },
+    { id: "tools-technologies", title: "Tools & technologies", items: ["Git", "GitHub", "Visual Studio Code", "Android Studio", "Postman", "REST APIs"] },
   ],
   education: [
-    { id: "bachelor-information-technology", credential: "Bachelor of Science in Information Technology", institution: "Batangas State University – The National Engineering University", dates: "Current", details: ["Major in Service Management"], note: "Fourth-year graduating student" },
-    { id: "tvl-ict", credential: "TVL — Information, Communication and Technology", institution: "Alitagtag Senior High School", dates: "2024", details: [], note: "" },
+    { id: "bachelor-information-technology", credential: "Bachelor of Science in Information Technology", institution: "Batangas State University – The National Engineering University, Lipa Campus", dates: "Expected graduation: July 2027", details: ["Major in Service Management"], note: "Lipa City, Batangas" },
   ],
-  projects: [], certifications: [], customSections: [
-    { id: "additional-information", title: "Additional information", body: "", items: ["Willing to work night shifts, weekends, and holidays.", "Comfortable in a fast-paced environment.", "Willing to undergo training and continuous learning.", "Interested in customer service, technical support, and BPO-related roles."] },
-    { id: "references", title: "References", body: "Reference names and contact details from the supplied résumé are omitted from this public page to protect those individuals’ privacy.", items: [] },
+  projects: [
+    { id: "cav-business-operations", title: "An Integrated Web-Based Business Operations Management System Utilizing Machine Learning for CAV Photo Studio and Café", organization: "Full-Stack Developer", dates: "March 2026 – October 2026", summary: "Developed a full-stack business management platform integrating studio bookings, point-of-sale (POS), sales tracking, inventory management, and business analytics into a centralized system.", highlights: ["Implemented role-based authentication and management workflows for administrators, staff, and customers, including booking, payment verification, and inventory operations.", "Developed REST API integrations and database-driven functionalities using React, Django, and Supabase.", "Integrated machine learning-based sales forecasting to support business planning and data-driven decision-making.", "Improved mobile Lighthouse performance on the admin dashboard by 29 points and reduced Total Blocking Time by 6.0 seconds through frontend performance optimization.", "Technologies: React.js, Tailwind CSS, Django, Supabase, SQLite, REST APIs", "GitHub: https://github.com/Erll-Jhanwin/CAV-Photostudio-and-Cafe"], url: "https://cavphotostudiocafe.com" },
+    { id: "revoltix-educational-app", title: "REVOLTIX: An Educational Application for ECE Students", organization: "App Developer", dates: "January 2024 – May 2024", summary: "Contributed to the development of an educational Android application designed to provide Electronics Engineering students with an accessible and centralized learning platform.", highlights: ["Developed and integrated application functionalities using Java and Firebase, supporting data management and user authentication.", "Utilized Firebase Authentication, Realtime Database, and Cloud Storage to support user accounts, application data, and learning resources.", "Participated in application design, feature implementation, and testing to improve usability and functionality.", "Technologies: Java, Android Studio, Firebase Authentication, Firebase Realtime Database, Firebase Storage", "Project: https://tinyurl.com/38cy5rsw", "GitHub: https://github.com/Erll-Jhanwin/REVOLTIX"], url: "https://tinyurl.com/38cy5rsw" },
   ],
+  certifications: [
+    { id: "converge-it-conference-2026", title: "Converge IT Conference 2026", issuer: "Lipa Academy for Sports, Culture and Arts", date: "2026", credentialUrl: "" },
+    { id: "batangas-it-conference-2024", title: "Batangas Information Technology Conference", issuer: "Lipa Academy for Sports, Culture and Arts", date: "2024", credentialUrl: "" },
+    { id: "project-ict-workshop-2023", title: "Project ICT: Improving Competencies in Technology Workshop", issuer: "Alitagtag Senior High School", date: "2023", credentialUrl: "" },
+  ],
+  customSections: [],
 };
